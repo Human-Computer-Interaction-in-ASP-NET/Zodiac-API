@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Zodiac API Client</title>
+</head>
+
+<body>
+    <h1>Zodiac API Client</h1>
+    <p>Enter a year and click the button to get the zodiac animal and image.</p>
+    <input type="number" id="yearInput" placeholder="Enter a year" />
+    <button onclick="fetchZodiacInfo()">Get Zodiac Info</button>
+    <div id="result"></div>
+
+    <script>
+        function fetchZodiacInfo() {
+            const year = document.getElementById("yearInput").value;
+            fetch(`http://localhost:5267/api/zodiac/${year}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    const resultDiv = document.getElementById("result");
+                    resultDiv.innerHTML = `
+                <p>Zodiac Animal: ${data.name}</p>
+                <img src="${data.imageUrl}" alt="${data.name}">
+            `;
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+        }
+    </script>
+</body>
+
+</html>
